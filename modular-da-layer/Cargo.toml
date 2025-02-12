@@ -5,3 +5,9 @@ edition = "2021"
 
 [dependencies]
 sled = "0.34.7"
+reed-solomon-erasure = "6.0.0"
+rand = "0.9"
+sha2 = "0.10"
+curve25519-dalek = "4.1"
+merkle_light = "0.4"
+ff = "0.13"
