@@ -10,6 +10,7 @@ mod crypto_utils;
 
 use crypto_utils::*;
 use merkle::*;
+use merkle::MerkleTree;
 use network::*;
 use shard::*;
 use storage::*;
@@ -20,7 +21,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 }
 
-/*#[cfg(test)]
+#[cfg(test)]
 mod test{
     
     use super::*;
@@ -36,8 +37,8 @@ mod test{
 
         let tree = merkle::MerkleTree::new(sharded_hashes.clone());
         let proof = tree.generate_proof(2);
-        let root  = tree.root.hash.clone();
+        let root = tree.root.hash.clone();
 
-        assert!(verify(&root, &proof, &sharded_hashes[3]));
+        assert!(MerkleTree::verify(&root, &proof, &sharded_hashes[2], 2));
     }
-}*/
+}
