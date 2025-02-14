@@ -16,34 +16,6 @@ use storage::*;
 use verification::*;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let data = vec![
-        b"data1".to_vec(),
-        b"data2".to_vec(),
-        b"data3".to_vec(),
-        b"data4".to_vec(),
-    ];
-
-    let index = 3;
-
-    // let proof = compute_merkle_proof(&tree, index);
-
-    let merkle_product = compute_merkle_product(data, index);
-
-    let sigma = SigmaProtocol::new(&merkle_product);
-
-    let (t, r) = sigma.commit();
-
-    let e = SigmaProtocol::challenge();
-
-    let z = sigma.response(&r, &e);
-    let is_valid = sigma.verify(&t, &e, &z);
-
-    if is_valid {
-        println!("Verification Successful!");
-    } else {
-        println!("Verification Failed");
-    }
-
     Ok(())
 
 }

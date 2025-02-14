@@ -12,3 +12,8 @@ curve25519-dalek = "4.1"
 merkle_light = "0.4"
 ff = "0.13"
 rayon = "1.10"
+hex = "0.4.3"
+num-bigint = { version = "0.4", features = ["rand"] }
+num-traits = "0.2.19"
+lazy_static = "1.4"
+curv-kzen = "0.10"
