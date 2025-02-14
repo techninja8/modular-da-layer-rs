@@ -1,0 +1,8 @@
+let hashed_data: Vec<Hash> = data.iter().map(
+    |d| Hash::compute_hash(d)
+    ).collect();
+    
+let (tree, root) = build_merkle_tree(&hashed_data);
+
+println!("{:?}", tree); // merkle tree
+println!("{:?}", root); // merkle root */ 

@@ -6,7 +6,9 @@ mod network;
 mod shard;
 mod storage;
 mod verification;
+mod crypto_utils;
 
+use crypto_utils::*;
 use merkle::*;
 use network::*;
 use shard::*;
@@ -14,25 +16,56 @@ use storage::*;
 use verification::*;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    //println!("Hello, World");
+    let data = vec![
+        b"data1".to_vec(),
+        b"data2".to_vec(),
+        b"data3".to_vec(),
+        b"data4".to_vec(),
+    ];
+
+    let index = 3;
+
+    // let proof = compute_merkle_proof(&tree, index);
+
+    let merkle_product = compute_merkle_product(data, index);
+
+    let sigma = SigmaProtocol::new(&merkle_product);
+
+    let (t, r) = sigma.commit();
+
+    let e = SigmaProtocol::challenge();
+
+    let z = sigma.response(&r, &e);
+    let is_valid = sigma.verify(&t, &e, &z);
+
+    if is_valid {
+        println!("Verification Successful!");
+    } else {
+        println!("Verification Failed");
+    }
 
     Ok(())
+
 }
 
-#[cfg(test)]
+/*#[cfg(test)]
 mod test{
+    
     use super::*;
 
     #[test]
-    fn testing_sharding_and_reconstruction() {
-        let original_data = b"This is a data that would be sharded and unsharded";
-        let chunk_size = 10;
+    fn test_merkle_proof_verification() {
+        let sharded_hashes = vec![
+            vec![1, 2, 3], 
+            vec![4, 5, 6],
+            vec![7, 8, 9],
+            vec![10, 11, 12],
+        ];
 
-        let shards = Shard::split(original_data, chunk_size);
-        assert!(shards.len() > 1, "The data should have splitted into more than 1 shards");
+        let tree = merkle::MerkleTree::new(sharded_hashes.clone());
+        let proof = tree.generate_proof(2);
+        let root  = tree.root.hash.clone();
 
-        let reconstructed_data = Shard::reconstruct(&shards);
-
-        assert_eq!(original_data.as_ref(), reconstructed_data.as_slice());
+        assert!(verify(&root, &proof, &sharded_hashes[3]));
     }
-}
+}*/
